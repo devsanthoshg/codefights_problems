@@ -1,0 +1,49 @@
+/*
+Your task is to reverse the strings contained in each pair of matching parentheses, starting from the innermost pair. 
+The results string should not contain any parentheses. 
+sample input and output
+        s = "a(bc)de" 
+        reverseParentheses(s) = "acbde"
+        
+        s="a(bcdefghijkl(mno)p)q" 
+        reverseParentheses(s) ="apmnolkjihgfedcbq" 
+        
+        s=co(de(fight)s)" 
+        reverseParentheses(s)="cosfighted" 
+        
+        s="Code(Cha(lle)nge)" 
+        reverseParentheses(s)="CodeegnlleahC" 
+        
+        s="abc(cba)ab(bac)c" 
+        reverseParentheses(s) ="abcabcabcabc"
+        
+        s="The ((quick (brown) (fox) jumps over the lazy) dog)" 
+        reverseParentheses(s)="The god quick nworb xof jumps over the lazy"
+
+*/
+String reverseParentheses(String s) {
+String res="";
+    StringBuffer temp=new StringBuffer();
+    int x=0;
+    for(int i=0;i<s.length();i++){
+        if(s.charAt(i)=='(' && x==0){ //for first open bracket
+           x++;
+             continue;
+         }
+        else if(s.charAt(i)=='(')
+            x++;
+        else if(x==1 && s.charAt(i)==')'){ //for last open bracket
+            StringBuilder temp1=new StringBuilder(reverseParentheses(temp.toString())); //recursion
+            res+=(temp1.reverse()).toString();
+            temp=new StringBuffer();
+            x--; 
+        }
+        else if(s.charAt(i)==')')
+            x--;
+         if(x>0)
+            temp.append(""+s.charAt(i));  
+        else if(x==0 && (s.charAt(i)!='(' && s.charAt(i)!=')'))
+          res+=""+s.charAt(i); 
+    }
+    return res;
+}
